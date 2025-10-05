@@ -5,8 +5,9 @@ set -e
 # Update and upgrade system
 echo "Updating system..."
 sudo apt update && sudo apt upgrade -y
+
 # Install dependencies
-sudo apt install -y curl wget gnupg2 lsb-release apt-transport-https ca-certificates software-properties-common
+sudo apt install -y curl wget gnupg2 lsb-release apt-transport-https ca-certificates software-properties-common fprintd libpam-fprintd
 
 # Function to add GPG keys and repositories
 add_repo_key() {
@@ -43,9 +44,14 @@ sudo apt install -y tmux
 
 # Install Docker
 echo "Installing Docker..."
-sudo apt remove -y docker docker-engine docker.io containerd runc || true
-sudo apt update
-sudo apt install -y docker.io
+sudo apt-get install ca-certificates curl gnupg lsb-release
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 sudo systemctl enable docker
 sudo usermod -aG docker $USER
 
@@ -125,6 +131,38 @@ echo "Installing Postman..."
 flatpak install -y postman
 
 echo "Installing Slack..."
-sudo flatpak install -y slack
+flatpak install -y flathub com.slack.Slack
+
+# Install Zed
+flatpak install -y flathub dev.zed.Zed
+
+# Install VLC 
+echo "Installing VLC..."
+flatpak install flathub -y org.videolan.VLC
+
+# Install Chromium
+echo "Installing Chromium..."
+flatpak install -y flathub org.chromium.Chromium
+
+# Install Impression
+echo "Installing Impression..."
+flatpak install -y flathub io.gitlab.adhami3310.Impression
+
+# Install CPU-X
+echo "Installing CPU-X..."
+flatpak install -y flathub io.github.thetumultuousunicornofdarkness.cpu-x
+
+# Install DBeaver
+echo "Installing DBeaver..."
+flatpak install -y flathub io.dbeaver.DBeaverCommunity
+
+# Install HTTPie
+echo "Installing HTTPie..."
+flatpak install -y flathub io.httpie.Httpie
+
+# Install Ghostty
+wget -O ghostty.deb https://github.com/mkasberg/ghostty-ubuntu/releases/download/1.2.0-0-ppa2/ghostty_1.2.0-0.ppa2_amd64_24.04.deb --show-progress
+sudo dpkg -i ghostty.deb
+rm  ghostty*.deb
 
 echo "All tools installed. You may need to restart your system or log out/in for some changes to take effect."
