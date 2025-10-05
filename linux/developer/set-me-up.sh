@@ -118,8 +118,7 @@ echo "Installing JetBrains Toolbox (for PyCharm & IntelliJ)..."
 TOOLBOX_URL='https://download.jetbrains.com/toolbox/jetbrains-toolbox-2.9.1.58121.tar.gz'
 wget -O jetbrains-toolbox.tar.gz $TOOLBOX_URL --show-progress
 mkdir -p toolbox && tar -xzvf jetbrains-toolbox.tar.gz -C toolbox --strip-components=1
-./toolbox/bin/jetbrains-toolbox
-rm -rf jetbrains-toolbox.tar.gz toolbox
+rm -rf jetbrains-toolbox.tar.gz
 
 # Install Postman
 echo "Installing Postman..."
