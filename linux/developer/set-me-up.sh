@@ -7,7 +7,7 @@ echo "Updating system..."
 sudo apt update && sudo apt upgrade -y
 
 # Install dependencies
-sudo apt install -y curl wget gnupg2 lsb-release apt-transport-https ca-certificates software-properties-common fprintd libpam-fprintd
+sudo apt install -y curl wget gnupg2 lsb-release apt-transport-https ca-certificates software-properties-common fprintd libpam-fprintd flatpak
 
 # Function to add GPG keys and repositories
 add_repo_key() {
